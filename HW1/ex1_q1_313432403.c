@@ -8,11 +8,11 @@ int main()
 	printf("Input: n = ");
     scanf("%d", &n);
     printf("Output: ");
-    for(i=0;i<=n/2;i++)
+    for(i=1;i<=n/2;i++)
     {
         if(n%i==0)
         {
-            printf("%d ",&i);
+            printf("%d ",i);
         }
     }
     printf("%d",n);
