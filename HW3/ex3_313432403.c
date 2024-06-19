@@ -52,21 +52,46 @@ int main()
 
 int q_1(char arr[])
 {
-	int temp_counter, counter=1;
-    int i, j, temp_sum, sum = arr[0] - '0';
-    for (i = 0; arr[i] != '\0'; i+=2){
-        temp_sum = 0;
-        temp_counter = 0;
-        for (j=0; arr[j] != '\0'; j+=2){
-            temp_sum += arr[j] - '0';
-            temp_counter++;
-            if (temp_sum > sum){
-                sum = temp_sum;
-                counter = temp_counter;
-            }
+	int num_array[MAX_SIZE];
+    int n = 0, current_num = 0, sign = 1;
+    const char *p = arr;
+    
+    while(*p != '\0'){
+        if(*p == '-'){
+            sign = -1;
+        }
+        else if(*p >= '0' && *p <= '9'){
+            current_num = current_num * 10 + (*p - '0');
+        }
+        else if(*p == ','){
+            num_array[n++] = sign * current_num;
+            current_num = 0;
+            sign = 1;
+        }
+        p++;
+    }
+
+    num_array[n++] = sign * current_num;
+
+    int max_sum = num_array[0], current_sum = num_array[0];
+    int i;
+    int max_count = 1, current_count = 1;
+    for(i = 1; i < n; i++){
+        if(num_array[i] > current_sum + num_array[i]){
+            current_sum = num_array[i];
+            current_count = 1;
+        }
+        else{
+            current_sum += num_array[i];
+            current_count++;
+        }
+
+        if(current_sum > max_sum){
+            max_sum = current_sum;
+            max_count = current_count;
         }
     }
-    return counter;
+    return max_count;
 }
 
 int q_2(char arr[], int k)
