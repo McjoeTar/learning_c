@@ -102,34 +102,28 @@ int q_2(char arr[], int k)
 int q_3(char arr[])
 {
 	int num_array[MAX_SIZE];
-    int len = 0;
-    int n = 0, current_num = 0, sign = 1;
+    int n = 0, current_num = 0;
     const char *p = arr;
     
     while(*p != '\0'){
-        if(*p == '-'){
-            sign = -1;
-        }
-        else if(*p >= '0' && *p <= '9'){
+        if(*p >= '0' && *p <= '9'){
             current_num = current_num * 10 + (*p - '0');
         }
         else if(*p == ','){
-            num_array[n++] = sign * current_num;
+            num_array[n++] = current_num;
             current_num = 0;
-            sign = 1;
         }
         p++;
-        len++;
     }
 
-    num_array[n++] = sign * current_num;
-    int nums[len];
+    num_array[n++] = current_num;
+
+    int nums[n];
     int i;
-    for (i = 0; i < len; i++){
+    for (i = 0; i < n; i++){
         nums[i] = 0;
     }
-
-    for(i = 0; i < len; i++){
+    for(i = 0; i < n; i++){
         if(nums[num_array[i]] == 1){
             return 1;
         }
