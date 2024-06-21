@@ -55,7 +55,7 @@ int q_1(char arr[])
 	int num_array[MAX_SIZE];
     int n = 0, current_num = 0, sign = 1;
     const char *p = arr;
-    
+
     while(*p != '\0'){
         if(*p == '-'){
             sign = -1;
@@ -101,11 +101,89 @@ int q_2(char arr[], int k)
 
 int q_3(char arr[])
 {
-	// HERE: define the function accordingly
+	int num_array[MAX_SIZE];
+    int len = 0;
+    int n = 0, current_num = 0, sign = 1;
+    const char *p = arr;
+    
+    while(*p != '\0'){
+        if(*p == '-'){
+            sign = -1;
+        }
+        else if(*p >= '0' && *p <= '9'){
+            current_num = current_num * 10 + (*p - '0');
+        }
+        else if(*p == ','){
+            num_array[n++] = sign * current_num;
+            current_num = 0;
+            sign = 1;
+        }
+        p++;
+        len++;
+    }
+
+    num_array[n++] = sign * current_num;
+    int nums[len];
+    int i;
+    for (i = 0; i < len; i++){
+        nums[i] = 0;
+    }
+
+    for(i = 0; i < len; i++){
+        if(nums[num_array[i]] == 1){
+            return 1;
+        }
+        nums[num_array[i]] = 1;
+    }
+    return -1;
 }
 
 
 int q_4(char arr[])
 {
-	// HERE: define the function accordingly
+    int num_array[MAX_SIZE];
+    int n = 0, current_num = 0, sign = 1;
+    const char *p = arr;
+
+    while(*p != '\0'){
+        if(*p == '-'){
+            sign = -1;
+        }
+        else if(*p >= '0' && *p <= '9'){
+            current_num = current_num * 10 + (*p - '0');
+        }
+        else if(*p == ','){
+            num_array[n++] = sign * current_num;
+            current_num = 0;
+            sign = 1;
+        }
+        p++;
+    }
+    
+    num_array[n++] = sign * current_num;
+
+    int left = 0, right = n - 1;
+    int left_max = 0, right_max = 0;
+    int total_water = 0;
+
+    while (left<=right){
+        if(num_array[left] < num_array[right]){
+            if(num_array[left] >= left_max){
+                left_max = num_array[left];
+            }
+            else{
+                total_water += left_max - num_array[left];
+            }
+            left++;
+        } else {
+            if(num_array[right] >= right_max){
+                right_max = num_array[right];
+            }
+            else{
+                total_water += right_max - num_array[right];
+            }
+            right--;
+        }
+    }
+    return total_water;
 }
