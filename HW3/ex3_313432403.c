@@ -50,7 +50,7 @@ int main()
 	return 0;
 }
 
-int q_1(char arr[])
+int q_1(char arr[]) //Kadane's Algorithm
 {
 	int num_array[MAX_SIZE];
     int n = 0, current_num = 0, sign = 1;
@@ -94,12 +94,61 @@ int q_1(char arr[])
     return max_count;
 }
 
-int q_2(char arr[], int k)
+int q_2(char arr[], int k) //Sliding windows algorithm 
 {
-	// HERE: define the function accordingly
+	int num_array[MAX_SIZE];
+    int n = 0, current_num = 0, sign = 1;
+    const char *p = arr;
+
+    while(*p != '\0'){
+        if(*p == '-'){
+            sign = -1;
+        }
+        else if(*p >= '0' && *p <= '9'){
+            current_num = current_num * 10 + (*p - '0');
+        }
+        else if(*p == ','){
+            num_array[n++] = sign * current_num;
+            current_num = 0;
+            sign = 1;
+        }
+        p++;
+    }
+
+    num_array[n++] = sign * current_num;
+
+    int count = 0;
+
+    for(int i=0; i<n; i++){
+        if(arr[i] <= k){
+            count++;}
+    }
+
+    int bad_count = 0;
+    for(int i=0; i<count; i++){
+        if(arr[i] > k){
+            bad_count++;
+        }
+    }
+
+    int min_swaps = bad_count;
+    for(int i=0, j=count; j<n; i++, j++){
+        if(num_array[j] > k){
+            bad_count++;
+        }
+        if(num_array[i] > k){
+            bad_count--;
+        }
+        if(bad_count < min_swaps){
+            min_swaps = bad_count;
+        }
+    }
+
+    return min_swaps;
+
 }
 
-int q_3(char arr[])
+int q_3(char arr[]) //Hashing algorithm
 {
 	int num_array[MAX_SIZE];
     int n = 0, current_num = 0;
@@ -133,7 +182,7 @@ int q_3(char arr[])
 }
 
 
-int q_4(char arr[])
+int q_4(char arr[]) //Two pointer algorithm
 {
     int num_array[MAX_SIZE];
     int n = 0, current_num = 0, sign = 1;
