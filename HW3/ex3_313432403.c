@@ -120,13 +120,13 @@ int q_2(char arr[], int k) //Sliding windows algorithm
     int count = 0;
 
     for(int i=0; i<n; i++){
-        if(arr[i] <= k){
+        if(num_array[i] <= k){
             count++;}
     }
 
     int bad_count = 0;
     for(int i=0; i<count; i++){
-        if(arr[i] > k){
+        if(num_array[i] > k){
             bad_count++;
         }
     }
