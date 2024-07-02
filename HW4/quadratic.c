@@ -46,22 +46,19 @@ void print_quadratic(double a, double b, double c)
     }
     if (a != 0){
         if (a == 1 || a == -1)
-            printf("%sx^2 ", a < 0 ? "-" : "");
+            printf("%sx^2", a < 0 ? "-" : "");
         else {
-            printf("%gx^2 ", a);
+            printf("%gx^2", a);
         }
     }
     if (b != 0){
         if (b == 1 || b == -1)
-            printf("%sx ", b < 0 ? "- " : "+ ");
+            printf("%sx", a == 0 ? "" : b < 0 ? "-" : "+");
         else
-            printf("%s %gx ", b < 0 ? "- " : "+ ", b < 0 ? -b : b);
+            printf("%s%gx", a == 0 ? "" : b < 0 ? "-" : "+", b < 0 ? -b : b);
     }
     if (c != 0){
-        if (c == 1 || c == -1)
-            printf("%s1", c < 0 ? "- " : "+ ");
-        else
-            printf("%s %gx ", c < 0 ? "- " : "+ ", c < 0 ? -c : c);
+        printf("%s%g", a==0 && b==0 ? "" : c < 0 ? "-" : "+", c < 0 ? -c : c);
     }
 
 }
