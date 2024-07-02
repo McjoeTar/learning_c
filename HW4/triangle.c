@@ -60,7 +60,7 @@ int main()
 
 void print_point(Point p)
 {
-    printf("(%g, %g)", p.x, p.y);
+    printf("(%.4g, %.4g)", p.x, p.y);
 }
 
 double distance(Point p, Point q)
