@@ -39,31 +39,48 @@ void bin2hexanddec(char *bin_str)
 
     for(i = 0; i < MAX_SIZE_INPUT; i++)
     {
-        if(bin_str[i] != '0' && bin_str[i] != '1')
-        {
-            printf("%s\n", QUESTION1_ERROR_MESSAGE);
-            return;
-        }
         if(bin_str[i] == '\0')
         {
             break;
         }
+        if(bin_str[i] != '0' && bin_str[i] != '1')
+        {
+            *bin_str = '\0';
+            printf("%s\n", QUESTION1_ERROR_MESSAGE);
+            return;
+        }
+        
         dec_input = dec_input * 2 + (bin_str[i] - '0');
     }
 
-    printf("%s %d",QUESTION1_OUTPUT_MESSAGE_DECIMAL, dec_input);
-    printf("%s %x",QUESTION1_OUTPUT_MESSAGE_HEXADECIMAL, dec_input);
+    printf("%s %d\n",QUESTION1_OUTPUT_MESSAGE_DECIMAL, dec_input);
+    printf("%s 0x%x",QUESTION1_OUTPUT_MESSAGE_HEXADECIMAL, dec_input);
 
 }
 
 void swap(int* xp, int* yp)
 {
-	//Question 2
+	*xp ^= *yp;
+    *yp ^= *xp;
+    *xp ^= *yp;
+    printf("%s num1=%d, num2=%d\n", QUESTION2_OUTPUT_MESSAGE, *xp, *yp);
+
 }
 
 int minPowerOf2(int num)
 {
-	//Question 3
+	if(num == 0)
+    {
+        return 1;
+    }
+    num = num - 1;
+    num |= num >> 1;
+    num |= num >> 2;
+    num |= num >> 4;
+    num |= num >> 8;
+    num |= num >> 16;
+    return num+1;
+    
 }
 
 int isPalindrome(int num)
@@ -80,36 +97,45 @@ int swap_even_odd(int num)
 int main()
 {
     int question;
-    
+    char input[MAX_SIZE_INPUT];
+    int num1, num2;
     do
     {
         printf("%s\n", ENTERING_QUESTION);
         scanf("%d", &question);
+        switch(question)
+        {
+            case 0:
+                return 0;
+            case 1:
+                do
+                {
+                    printf("%s\n", QUESTION1_INPUT_MESSAGE);
+                    scanf("%s",input);
+                    bin2hexanddec(input);
+                } while (*input == '\0');
+                break;
+            case 2:
+                
+                printf("%s\n", QUESTION2_INPUT1_MESSAGE);
+                scanf("%d", &num1);
+                printf("%s\n", QUESTION2_INPUT2_MESSAGE);
+                scanf("%d", &num2);
+                swap(&num1, &num2);
+                break;
+            case 3:
+                printf("%s\n", QUESTION3_INPUT1_MESSAGE);
+                scanf("%d", &num1);
+                printf("%s %d\n", QUESTION3_OUTPUT_MESSAGE, minPowerOf2(num1));
+                break;
+            case 4:
+                break;
+            case 5:
+                break;
+        }
     } while (question > 5 || question <= 0);
     
-    switch(question)
-    {
-        case 0:
-            return 0;
-        case 1:
-            char input[MAX_SIZE_INPUT];
-            printf("%s\n", QUESTION1_INPUT_MESSAGE);
-            scanf("%s",input);
-            bin2hexanddec(input);
-            break;
-        case 2:
-            question2();
-            break;
-        case 3:
-            question3();
-            break;
-        case 4:
-            question4();
-            break;
-        case 5:
-            question5();
-            break;
-    }
+    
     
 	return 0;
 }
