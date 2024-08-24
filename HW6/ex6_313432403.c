@@ -54,7 +54,7 @@ void bin2hexanddec(char *bin_str)
     }
 
     printf("%s %d\n",QUESTION1_OUTPUT_MESSAGE_DECIMAL, dec_input);
-    printf("%s 0x%x",QUESTION1_OUTPUT_MESSAGE_HEXADECIMAL, dec_input);
+    printf("%s 0x%X\n",QUESTION1_OUTPUT_MESSAGE_HEXADECIMAL, dec_input);
 
 }
 
@@ -74,23 +74,52 @@ int minPowerOf2(int num)
         return 1;
     }
     num = num - 1;
-    num |= num >> 1;
-    num |= num >> 2;
-    num |= num >> 4;
-    num |= num >> 8;
-    num |= num >> 16;
+    int i=1;
+    for (i = 1; i < sizeof(int) * 8; i = i << 1)
+    {   
+        num = num | num >> i;
+        //printf("num = %d or hex_num = %X and i = %d \n", num,num,i);
+    }
+    // num |= num >> 1;
+    // num |= num >> 2;
+    // num |= num >> 4;
+    // num |= num >> 8;
+    // num |= num >> 16;
     return num+1;
     
 }
 
 int isPalindrome(int num)
 {
-	//Question 4
+    int bin_len = sizeof(int) * 8;
+    int msb =0;
+    for(int i = bin_len -1 ; i >= 0; i--)
+    {
+        if(num & (1 << i))
+        {
+            msb=i;
+            break;
+        }
+    }
+    for (int i = 0; i < msb; i++)
+    {
+        if((num & (1 << i)) != ((num & (1 << (msb - i))) >> (msb - i)))
+        {
+            return 0;
+        }
+    }
+    return 1;
 }
 
 int swap_even_odd(int num)
 {
-	//Question 5
+	int even_mask = 0xAAAAAAAA;
+    int odd_mask = 0x55555555;
+    int even_bits = num & even_mask;
+    int odd_bits = num & odd_mask;
+    even_bits >>= 1;
+    odd_bits <<= 1;
+    return even_bits | odd_bits;
 }
 
 
@@ -129,11 +158,24 @@ int main()
                 printf("%s %d\n", QUESTION3_OUTPUT_MESSAGE, minPowerOf2(num1));
                 break;
             case 4:
+                printf("%s\n", QUESTION4_INPUT1_MESSAGE);
+                scanf("%d", &num1);
+                if(isPalindrome(num1))
+                {
+                    printf("%d %s\n",num1, QUESTION4_OUTPUT1_MESSAGE);
+                }
+                else
+                {
+                    printf("%d %s\n",num1, QUESTION4_OUTPUT0_MESSAGE);
+                }
                 break;
             case 5:
+                printf("%s\n", QUESTION5_INPUT1_MESSAGE);
+                scanf("%d", &num1);
+                printf("%s %d\n", QUESTION5_OUTPUT1_MESSAGE, swap_even_odd(num1));
                 break;
         }
-    } while (question > 5 || question <= 0);
+    } while (question != 0);
     
     
     
